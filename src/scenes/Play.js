@@ -9,21 +9,34 @@ class Play extends Phaser.Scene{
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
-        //load spritesheet
+        this.load.image('test_bg', './assets/test_bg.png');
+
+        //load spritesheet(s)
         this.load.spritesheet('explosion', './assets/explosion.png', {
             frameWidth: 64,
             frameHeight: 32,
             startFrame: 0,
             endFrame:9
         });
+        this.load.spritesheet('star', './assets/star_sprite.png', {
+            frameWidth: 32,
+            frameHeight: 32,
+            startFrame: 0,
+            endFrame: 5
+        });
     }
 
     create(){
         //place starfield
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0,0);
+        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'test_bg').setOrigin(0,0);
 
+        //add music to scene and play
+        this.bgMusic = this.sound.add('bgm_01', {volume: 0.5});
+        this.bgMusic.loop = true;
+        this.bgMusic.play();
+    
 
-        //green ui bg
+        //green box end zone
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width,
         borderUISize * 2, 0x00FF00).setOrigin(0,0);
         //white borders
@@ -42,11 +55,14 @@ class Play extends Phaser.Scene{
 
         //add spaceship (x3)
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4,
-        'spaceship', 0, 30).setOrigin(0,0);
+        'star', 0, 30).setOrigin(0,0);
+        //ship01.play("pulse");
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2,
-        'spaceship', 0, 20).setOrigin(0,0);
+        'star', 0, 20).setOrigin(0,0);
+        //ship02.play("pulse");
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4,
-        'spaceship', 0, 10).setOrigin(0,0);
+        'star', 0, 10).setOrigin(0,0);
+        //ship03.play("pulse");
 
         //define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -63,6 +79,16 @@ class Play extends Phaser.Scene{
                 first: 0
             }),
             frameRate: 30
+        });
+        this.anims.create({
+            key: 'pulse',
+            frames: this.anims.generateFrameNumbers('star', {
+                start: 0,
+                end: 5,
+                first: 0,
+                repeat: -1
+            }),
+            frameRate: 5
         });
 
         //initialize score
@@ -99,9 +125,11 @@ class Play extends Phaser.Scene{
     update(){
         //check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
+            this.bgMusic.stop();
             this.scene.restart();
         }
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)){
+            this.bgMusic.stop();
             this.scene.start("menuScene");
         }
         

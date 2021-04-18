@@ -1,0 +1,19 @@
+Credits:
+
+Art Assets:
+    me lol
+
+
+music:
+    loginMusic
+    morning_breeze
+
+
+
+points:
+60      redisgn artwork/ui/sfx/ to change theme/aesthetic
+10      parallax scrolling
+10      time remaining
+
+5       add music(?)
+10      title screen(?)
