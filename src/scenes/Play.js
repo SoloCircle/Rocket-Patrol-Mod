@@ -3,7 +3,6 @@ class Play extends Phaser.Scene{
         super("playScene");
     }
 
-    //init(), preload(), create(), update()
     preload(){
         //load img and file sprites
         this.load.image('rocket', './assets/rocket.png');
@@ -24,10 +23,50 @@ class Play extends Phaser.Scene{
             startFrame: 0,
             endFrame: 5
         });
+        this.load.spritesheet('candle', './assets/candle_sprite.png', {
+            frameWidth: 64,
+            frameHeight: 64
+        });
     }
 
     create(){
-        //place starfield
+        //anim config
+        this.anims.create({
+            key: 'explode',
+            frames: this.anims.generateFrameNumbers('explosion', {
+                start: 0,
+                end: 9,
+                first: 0
+            }),
+            frameRate: 30
+        });
+        this.anims.create({
+            key: 'flicker',
+            frames: this.anims.generateFrameNames('candle', {
+                start: 0,
+                end: 3,
+                first: 0
+            }),
+            repeat: -1,
+            frameRate: 1
+        });
+        /*this.anims.create({
+            key: 'pulse',
+            frames: this.anims.generateFrameNumbers('star', {
+                start: 0,
+                end: 5,
+                first: 0,
+            }),
+            frameRate: 5,
+            repeat: -1
+        });*/
+        
+
+
+        //place starfield + other UI elements + initiate anims
+        this.candle = this.add.sprite(600,420, 'candle').setOrigin(0.5, 0.5);
+            this.candle.play('flicker');
+            this.candle.setDepth(3);
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'test_bg').setOrigin(0,0);
 
         //add music to scene and play
@@ -36,18 +75,21 @@ class Play extends Phaser.Scene{
         this.bgMusic.play();
     
 
-        //green box end zone
+        //end zone
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width,
-        borderUISize * 2, 0x00FF00).setOrigin(0,0);
-        //white borders
-        this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin
-        (0,0);
+        borderUISize * 2, 0x11094B).setOrigin(0,0);
+        //borders
+        this.add.rectangle(0, 0, game.config.width, borderUISize, 0x11094B).setOrigin
+        (0,0).setDepth(2);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width,
-        borderUISize, 0xFFFFFF).setOrigin(0,0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin
-        (0,0);
+        borderUISize, 0x11094B).setOrigin(0,0).setDepth(2);
+        this.add.rectangle(0, 0, borderUISize, game.config.height, 0x11094B).setOrigin
+        (0,0).setDepth(2);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.
-        config.height, 0xFFFFFF).setOrigin(0,0);
+        config.height, 0x11094B).setOrigin(0,0).setDepth(2);
+
+
+
 
         //add rocket (player 1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height-borderUISize-borderPadding,
@@ -56,7 +98,7 @@ class Play extends Phaser.Scene{
         //add spaceship (x3)
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4,
         'star', 0, 30).setOrigin(0,0);
-        //ship01.play("pulse");
+        //ship01.play('pulse');
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2,
         'star', 0, 20).setOrigin(0,0);
         //ship02.play("pulse");
@@ -70,26 +112,6 @@ class Play extends Phaser.Scene{
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
-        //anim config
-        this.anims.create({
-            key: 'explode',
-            frames: this.anims.generateFrameNumbers('explosion', {
-                start: 0,
-                end: 9,
-                first: 0
-            }),
-            frameRate: 30
-        });
-        this.anims.create({
-            key: 'pulse',
-            frames: this.anims.generateFrameNumbers('star', {
-                start: 0,
-                end: 5,
-                first: 0,
-                repeat: -1
-            }),
-            frameRate: 5
-        });
 
         //initialize score
         this.p1Score = 0;
