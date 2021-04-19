@@ -30,14 +30,12 @@ class Menu extends Phaser.Scene{
 
 
         //menu text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding,
-            'Star Catcher', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2, 'Use <--> arrows to move & (F) to fire',
-            menuConfig).setOrigin(0.5);
+        this.add.text(150, 100, 'Star Catcher', menuConfig).setOrigin(0.5);
+        this.add.text(0, 420, 'Use <--> arrows to move & (F) to launch', menuConfig).setOrigin(0);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding,
-            'Press <- for Novice or -> for Expert', menuConfig).setOrigin(0.5);
+            'Press <- for Dawn or -> for Dusk', menuConfig).setOrigin(0.5);
 
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -46,6 +44,7 @@ class Menu extends Phaser.Scene{
     update(){
         if(Phaser.Input.Keyboard.JustDown(keyLEFT)){
             game.settings = {
+                mood: 0,
                 spaceshipSpeed: 3,
                 gameTimer: 60000
             }
@@ -54,6 +53,7 @@ class Menu extends Phaser.Scene{
         }
         if(Phaser.Input.Keyboard.JustDown(keyRIGHT)){
             game.settings = {
+                mood: 1,
                 spaceshipSpeed: 4,
                 gameTimer: 45000
             }
