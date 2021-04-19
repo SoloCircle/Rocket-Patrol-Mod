@@ -13,10 +13,10 @@ points:
 20      new spaceship type - smaller, faster, worth more pts
 20      new artwork for rocket, spaceship, explosion
 10      replace border UI w/new artwork
-10      parallax scrolling
+`10      parallax scrolling
 10      time remaining
 10      new title screen
-5       add music(?)
+`5       add music
 5       allow player control of rocket after firing
 
 

@@ -5,10 +5,17 @@ class Play extends Phaser.Scene{
 
     preload(){
         //load img and file sprites
-        this.load.image('rocket', './assets/rocket.png');
+        this.load.image('note', './assets/note.png');
         this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('starfield', './assets/starfield.png');
-        this.load.image('test_bg', './assets/test_bg.png');
+        if(game.settings.mood == 1){
+            this.load.image('sky_bg', './assets/sky_bg.png');
+            this.load.image('mtn_bg', './assets/mtn_bg.png');
+        };
+        if(game.settings.mood == 0){
+            this.load.image('Dsky_bg', './assets/Dsky_bg.png');
+            this.load.image('Dmtn_bg', './assets/Dmtn_bg.png');
+        };
+  
 
         //load spritesheet(s)
         this.load.spritesheet('explosion', './assets/explosion.png', {
@@ -62,12 +69,19 @@ class Play extends Phaser.Scene{
         });*/
         
 
-
         //place starfield + other UI elements + initiate anims
         this.candle = this.add.sprite(600,420, 'candle').setOrigin(0.5, 0.5);
             this.candle.play('flicker');
             this.candle.setDepth(3);
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'test_bg').setOrigin(0,0);
+        if(game.settings.mood == 1){
+            this.skyBG = this.add.tileSprite(0, 0, 640, 480, 'sky_bg').setOrigin(0,0);
+            this.mtnBG = this.add.tileSprite(0, 0, 640, 480, 'mtn_bg').setOrigin(0,0);
+        };
+        if(game.settings.mood == 0){
+            this.skyBG = this.add.tileSprite(0, 0, 640, 480, 'Dsky_bg').setOrigin(0,0);
+            this.mtnBG = this.add.tileSprite(0, 0, 640, 480, 'Dmtn_bg').setOrigin(0,0);
+        }
+        
 
         //add music to scene and play
         this.bgMusic = this.sound.add('bgm_01', {volume: 0.5});
@@ -80,22 +94,21 @@ class Play extends Phaser.Scene{
         borderUISize * 2, 0x11094B).setOrigin(0,0);
         //borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0x11094B).setOrigin
-        (0,0).setDepth(2);
+        (0,0).setDepth(1);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width,
-        borderUISize, 0x11094B).setOrigin(0,0).setDepth(2);
+        borderUISize, 0x11094B).setOrigin(0,0).setDepth(1);
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0x11094B).setOrigin
-        (0,0).setDepth(2);
+        (0,0).setDepth(1);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.
-        config.height, 0x11094B).setOrigin(0,0).setDepth(2);
-
+        config.height, 0x11094B).setOrigin(0,0).setDepth(1);
 
 
 
         //add rocket (player 1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height-borderUISize-borderPadding,
-        'rocket').setOrigin(0.5, 0);
+        'note').setOrigin(0.5, 0).setDepth(2);
 
-        //add spaceship (x3)
+        //add spaceship
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4,
         'star', 0, 30).setOrigin(0,0);
         //ship01.play('pulse');
@@ -105,12 +118,18 @@ class Play extends Phaser.Scene{
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4,
         'star', 0, 10).setOrigin(0,0);
         //ship03.play("pulse");
+        if(game.settings.mood == 0){
+            this.ship04 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*9 + borderPadding*2,
+                'star', 0, 10).setOrigin(0,0);
+                //ship04.play("pulse");
+        };
 
         //define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
 
         //initialize score
@@ -154,19 +173,31 @@ class Play extends Phaser.Scene{
             this.bgMusic.stop();
             this.scene.start("menuScene");
         }
+        if(Phaser.Input.Keyboard.JustDown(keyESC)){
+            this.bgMusic.stop();
+            this.scene.start("menuScene");
+        }
         
-        this.starfield.tilePositionX -= starSpeed;
+        this.skyBG.tilePositionX -= skySpeed;
+        this.mtnBG.tilePositionX -= mtnSpeed;
 
         if(!this.gameOver){
             //update raw kit
             this.p1Rocket.update();
-            //update speship
+            //update spaceship
             this.ship01.update();
             this.ship02.update();
             this.ship03.update();
+            if(game.settings.mood == 0){
+                this.ship04.update();
+            }
         }
 
         //check collisions
+        if(this.checkCollision(this.p1Rocket, this.ship04)){
+            this.p1Rocket.reset();
+            this.shipExplode(this.ship04);
+        }
         if(this.checkCollision(this.p1Rocket, this.ship03)){
             this.p1Rocket.reset();
             this.shipExplode(this.ship03);
@@ -209,7 +240,7 @@ class Play extends Phaser.Scene{
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
         //sfx
-        this.sound.play('sfx_explosion');
+        this.sound.play('sfx_explosion', {volume: 0.5});
     }
 
 }
