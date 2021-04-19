@@ -18,8 +18,8 @@ class Play extends Phaser.Scene{
   
 
         //load spritesheet(s)
-        this.load.spritesheet('explosion', './assets/explosion.png', {
-            frameWidth: 64,
+        this.load.spritesheet('explosion', './assets/star_explode.png', {
+            frameWidth: 32,
             frameHeight: 32,
             startFrame: 0,
             endFrame:9
@@ -84,7 +84,13 @@ class Play extends Phaser.Scene{
         
 
         //add music to scene and play
-        this.bgMusic = this.sound.add('bgm_01', {volume: 0.5});
+        if(game.settings.mood == 0){
+            this.bgMusic = this.sound.add('bgm_02', {volume: 0.3});
+        }
+        if(game.settings.mood == 1){
+            this.bgMusic = this.sound.add('bgm_01', {volume: 0.4});
+        }
+        
         this.bgMusic.loop = true;
         this.bgMusic.play();
     
@@ -106,9 +112,9 @@ class Play extends Phaser.Scene{
 
         //add rocket (player 1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height-borderUISize-borderPadding,
-        'note').setOrigin(0.5, 0).setDepth(2);
+        'note').setOrigin(0.5, 0).setDepth(4);
 
-        //add spaceship
+        //add stars
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4,
         'star', 0, 30).setOrigin(0,0);
         //ship01.play('pulse');
@@ -136,8 +142,8 @@ class Play extends Phaser.Scene{
         this.p1Score = 0;
         //display score
         let scoreConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
+            fontFamily: 'Candara',
+            fontSize: '24px',
             backgroundColor: '#F3B141',
             color: '#843605',
             align: 'right',
@@ -156,24 +162,40 @@ class Play extends Phaser.Scene{
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+
+        //exp timer
+        this.timeInSeconds = game.settings.gameTimer/1000;
+        let timeConfig = {
+            fontFamily: 'Candara',
+            fontSize: '26px',
+            color: '#ffffff',
+        }
+        this.timeText = this.add.text(550, 60, this.timeInSeconds, timeConfig);
+        this.timeText.setDepth(4);
+        this.timer = this.time.addEvent({ delay: 1000, callback: this.tickTimer, callbackScope: this, loop: true });
+
+    
     }
 
-
+    
 
     update(){
         //check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
+            this.sound.play('sfx_select');
             this.bgMusic.stop();
             this.scene.restart();
         }
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)){
+            this.sound.play('sfx_select');
             this.bgMusic.stop();
             this.scene.start("menuScene");
         }
         if(Phaser.Input.Keyboard.JustDown(keyESC)){
+            this.sound.play('sfx_select');
             this.bgMusic.stop();
             this.scene.start("menuScene");
         }
@@ -194,9 +216,11 @@ class Play extends Phaser.Scene{
         }
 
         //check collisions
-        if(this.checkCollision(this.p1Rocket, this.ship04)){
-            this.p1Rocket.reset();
-            this.shipExplode(this.ship04);
+        if(game.settings.mood == 0){
+            if(this.checkCollision(this.p1Rocket, this.ship04)){
+                this.p1Rocket.reset();
+                this.shipExplode(this.ship04);
+            }
         }
         if(this.checkCollision(this.p1Rocket, this.ship03)){
             this.p1Rocket.reset();
@@ -243,4 +267,9 @@ class Play extends Phaser.Scene{
         this.sound.play('sfx_explosion', {volume: 0.5});
     }
 
+    tickTimer(){
+        this.timeInSeconds--;
+        this.timeText.text = this.timeInSeconds;
+    }
+    
 }

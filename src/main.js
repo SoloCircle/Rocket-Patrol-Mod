@@ -16,3 +16,13 @@ let mtnSpeed = 0.5;
 
 //reserve keybinds
 let keyF, keyR, keyLEFT, keyRIGHT, keyESC;
+
+
+/**Point Breakdown
+ * 5   
+ * 5    Add BG Music to PlayScene
+ * 5    Create New Scrolling Tile Sprite
+ * 5
+ * 
+ * 
+*/
