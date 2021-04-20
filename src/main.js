@@ -19,10 +19,22 @@ let keyF, keyR, keyLEFT, keyRIGHT, keyESC;
 
 
 /**Point Breakdown
- * 5   
+ *    
  * 5    Add BG Music to PlayScene
- * 5    Create New Scrolling Tile Sprite
+ * 5    Create New Scrolling Tile Sprite for BG
+ * 5    
  * 5
+ *     
+ * 10   Display Time Remaining in Seconds
+ * 10   
+ * 10   Create new title screen
+ * 10   Implement parallax scrolling
+ * 
+ * 20   Create new spaceship type - smaller, faster, more points
+ * 20   New artwork for rocket, spaceship, explosion
+ * 20   
+ * 
+ * 
  * 
  * 
 */

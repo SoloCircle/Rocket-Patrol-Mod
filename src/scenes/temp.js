@@ -271,3 +271,19 @@ class Play extends Phaser.Scene{
     }
 
 }
+
+
+
+//garbage
+/*
+this.ball.setInteractive({
+    draggable: true,
+    useHandCursor: true
+})
+
+    this.input.on('gameobjectdown', (pointer, gameObject, event) => {
+        console.log(pointer)
+    })
+
+
+*/

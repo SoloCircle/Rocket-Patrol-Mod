@@ -43,6 +43,7 @@ class Menu extends Phaser.Scene{
             game.settings = {
                 mood: 0,
                 spaceshipSpeed: 3,
+                redSpeed: 6,
                 gameTimer: 60000
             }
             this.sound.play('sfx_select');
@@ -51,7 +52,8 @@ class Menu extends Phaser.Scene{
         if(Phaser.Input.Keyboard.JustDown(keyRIGHT)){
             game.settings = {
                 mood: 1,
-                spaceshipSpeed: 6,
+                spaceshipSpeed: 5,
+                redSpeed: 10,
                 gameTimer: 45000
             }
             this.sound.play('sfx_select');

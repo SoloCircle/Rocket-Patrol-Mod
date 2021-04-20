@@ -7,6 +7,7 @@ class Play extends Phaser.Scene{
         //load img and file sprites
         this.load.image('note', './assets/note.png');
         this.load.image('spaceship', './assets/spaceship.png');
+        this.load.image('redStar', './assets/red_star.png');
         if(game.settings.mood == 1){
             this.load.image('sky_bg', './assets/sky_bg.png');
             this.load.image('mtn_bg', './assets/mtn_bg.png');
@@ -129,6 +130,7 @@ class Play extends Phaser.Scene{
                 'star', 0, 10).setOrigin(0,0);
                 //ship04.play("pulse");
         };
+        this.red01 = new coolStar(this, -10, borderUISize*6, 'redStar', 0, 90).setOrigin(0,0);
 
         //define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -213,6 +215,7 @@ class Play extends Phaser.Scene{
             if(game.settings.mood == 0){
                 this.ship04.update();
             }
+            this.red01.update();
         }
 
         //check collisions
@@ -233,6 +236,10 @@ class Play extends Phaser.Scene{
         if(this.checkCollision(this.p1Rocket, this.ship01)){
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
+        }
+        if(this.checkCollision(this.p1Rocket, this.red01)){
+            this.p1Rocket.reset();
+            this.shipExplode(this.red01);
         }
     }
 
@@ -268,7 +275,9 @@ class Play extends Phaser.Scene{
     }
 
     tickTimer(){
-        this.timeInSeconds--;
+        if(this.timeInSeconds > 0){
+            this.timeInSeconds--;
+        }
         this.timeText.text = this.timeInSeconds;
     }
     
