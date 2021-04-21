@@ -5,8 +5,8 @@ class Play extends Phaser.Scene{
 
     preload(){
         //load img and file sprites
+        this.load.image('border', './assets/border.png');
         this.load.image('note', './assets/note.png');
-        this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('redStar', './assets/red_star.png');
         if(game.settings.mood == 1){
             this.load.image('sky_bg', './assets/sky_bg.png');
@@ -19,7 +19,25 @@ class Play extends Phaser.Scene{
   
 
         //load spritesheet(s)
-        this.load.spritesheet('explosion', './assets/star_explode.png', {
+        this.load.spritesheet('explosion', './assets/explosion_01.png', {
+            frameWidth: 32,
+            frameHeight: 32,
+            startFrame: 0,
+            endFrame:9
+        });
+        this.load.spritesheet('explosion2', './assets/explosion_02.png', {
+            frameWidth: 32,
+            frameHeight: 32,
+            startFrame: 0,
+            endFrame:7
+        });
+        this.load.spritesheet('explosion3', './assets/explosion_03.png', {
+            frameWidth: 32,
+            frameHeight: 32,
+            startFrame: 0,
+            endFrame:7
+        });
+        this.load.spritesheet('explosion4', './assets/explosion_04.png', {
             frameWidth: 32,
             frameHeight: 32,
             startFrame: 0,
@@ -49,6 +67,33 @@ class Play extends Phaser.Scene{
             frameRate: 30
         });
         this.anims.create({
+            key: 'explode2',
+            frames: this.anims.generateFrameNumbers('explosion2', {
+                start: 0,
+                end: 7,
+                first: 0
+            }),
+            frameRate: 30
+        });
+        this.anims.create({
+            key: 'explode3',
+            frames: this.anims.generateFrameNumbers('explosion3', {
+                start: 0,
+                end: 7,
+                first: 0
+            }),
+            frameRate: 30
+        });
+        this.anims.create({
+            key: 'explode4',
+            frames: this.anims.generateFrameNumbers('explosion4', {
+                start: 0,
+                end: 9,
+                first: 0
+            }),
+            frameRate: 30
+        });
+        this.anims.create({
             key: 'flicker',
             frames: this.anims.generateFrameNames('candle', {
                 start: 0,
@@ -70,7 +115,7 @@ class Play extends Phaser.Scene{
         });
         
 
-        //place starfield + other UI elements + initiate anims
+        //place sky + other UI elements + initiate anims
         this.candle = this.add.sprite(600,420, 'candle').setOrigin(0.5, 0.5);
             this.candle.play('flicker');
             this.candle.setDepth(3);
@@ -99,16 +144,9 @@ class Play extends Phaser.Scene{
         //end zone
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width,
         borderUISize * 2, 0x11094B).setOrigin(0,0);
-        //borders
-        this.add.rectangle(0, 0, game.config.width, borderUISize, 0x11094B).setOrigin
-        (0,0).setDepth(1);
-        this.add.rectangle(0, game.config.height - borderUISize, game.config.width,
-        borderUISize, 0x11094B).setOrigin(0,0).setDepth(1);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, 0x11094B).setOrigin
-        (0,0).setDepth(1);
-        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.
-        config.height, 0x11094B).setOrigin(0,0).setDepth(1);
-
+        //border sprite
+        this.bWindow = this.add.sprite(0,0, 'border').setOrigin(0, 0);
+            this.bWindow.setDepth(2);
 
 
         //add rocket (player 1)
@@ -260,13 +298,43 @@ class Play extends Phaser.Scene{
         //temp hide ship
         ship.alpha = 0;
         //create explosion
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0,0);
-        boom.anims.play('explode');
-        boom.on('animationcomplete', () => {
-            ship.reset();
-            ship.alpha = 100;
-            boom.destroy();
-        });
+        this.rand = Phaser.Math.Between(0,3);
+        console.log(this.rand);         //debug
+
+        if(this.rand == 0){
+            let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0,0);
+            boom.anims.play('explode');
+            boom.on('animationcomplete', () => {
+                ship.reset();
+                ship.alpha = 100;
+                boom.destroy();
+            });
+        }else if(this.rand == 1){
+            let boom = this.add.sprite(ship.x, ship.y, 'explosion2').setOrigin(0,0);
+            boom.anims.play('explode2');
+            boom.on('animationcomplete', () => {
+                ship.reset();
+                ship.alpha = 100;
+                boom.destroy();
+            });
+        }else if(this.rand == 2){
+            let boom = this.add.sprite(ship.x, ship.y, 'explosion3').setOrigin(0,0);
+            boom.anims.play('explode3');
+            boom.on('animationcomplete', () => {
+                ship.reset();
+                ship.alpha = 100;
+                boom.destroy();
+            });
+        }else if(this.rand == 3){
+            let boom = this.add.sprite(ship.x, ship.y, 'explosion4').setOrigin(0,0);
+            boom.anims.play('explode4');
+            boom.on('animationcomplete', () => {
+                ship.reset();
+                ship.alpha = 100;
+                boom.destroy();
+            });
+        }
+        
         //score add
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;

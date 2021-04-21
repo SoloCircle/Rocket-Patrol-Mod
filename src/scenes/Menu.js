@@ -26,7 +26,6 @@ class Menu extends Phaser.Scene{
         }
 
 
-
         //menu text
         this.add.text(50, 50, 'Star Catcher', menuConfig).setOrigin(0);
         this.add.text(0, 360, 'Use <--> arrows to move & (F) to launch', menuConfig).setOrigin(0);
@@ -59,9 +58,5 @@ class Menu extends Phaser.Scene{
             this.sound.play('sfx_select');
             this.scene.start('playScene');
         }
-        
     }
-
-
 }
-

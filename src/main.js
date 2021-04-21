@@ -19,22 +19,21 @@ let keyF, keyR, keyLEFT, keyRIGHT, keyESC;
 
 
 /**Point Breakdown
+ * 
  *    
  * 5    Add BG Music to PlayScene
  * 5    Create New Scrolling Tile Sprite for BG
- * 5    
- * 5
  *     
+ * 10   Create 4 new explosion SFX & Randomize which plays
  * 10   Display Time Remaining in Seconds
- * 10       WIP - Create new UI Border Art
+ * 10   Create new UI Border Art
  * 10   Create new title screen
  * 10   Implement parallax scrolling
  * 
+ * 10   (?) Create (animated) spaceship sprite - might overlap with new artwork
+ * 
  * 20   Create new spaceship type - smaller, faster, more points
  * 20   New artwork for rocket, spaceship, explosion
- * 20   
  * 
  * 
- * 
- * 
-*/
+**/
