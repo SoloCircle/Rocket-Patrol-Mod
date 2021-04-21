@@ -1,3 +1,29 @@
+/*              Project Details
+ * Name: Kendrick Long
+ * Project Title: Rocket Patrol Mod (Starcatcher)
+ * Submitted April 21, 2021
+ * Completion Time: Approx 1.25 weeks
+ * 
+ * Point Breakdown:
+ *    
+ * 5    Add BG Music to PlayScene
+ * 5    Create New Scrolling Tile Sprite for BG
+ *     
+ * 10   Create 4 new explosion SFX & Randomize which plays
+ * 10   Display Time Remaining in Seconds
+ * 10   Create new UI Border Art
+ * 10   Create new title screen
+ * 10   Implement parallax scrolling
+ * 
+ * 10   (?) Create (animated) spaceship sprite - might overlap with new artwork
+ * 
+ * 20   Create new spaceship type - smaller, faster, more points
+ * 20   New artwork for rocket, spaceship, explosion
+ * 
+ */
+
+
+
 //game config
 let config = {
     type: Phaser.CANVAS,
@@ -18,22 +44,3 @@ let mtnSpeed = 0.5;
 let keyF, keyR, keyLEFT, keyRIGHT, keyESC;
 
 
-/**Point Breakdown
- * 
- *    
- * 5    Add BG Music to PlayScene
- * 5    Create New Scrolling Tile Sprite for BG
- *     
- * 10   Create 4 new explosion SFX & Randomize which plays
- * 10   Display Time Remaining in Seconds
- * 10   Create new UI Border Art
- * 10   Create new title screen
- * 10   Implement parallax scrolling
- * 
- * 10   (?) Create (animated) spaceship sprite - might overlap with new artwork
- * 
- * 20   Create new spaceship type - smaller, faster, more points
- * 20   New artwork for rocket, spaceship, explosion
- * 
- * 
-**/
