@@ -58,7 +58,7 @@ class Play extends Phaser.Scene{
             repeat: -1,
             frameRate: 1
         });
-        /*this.anims.create({
+        this.anims.create({
             key: 'pulse',
             frames: this.anims.generateFrameNumbers('star', {
                 start: 0,
@@ -67,7 +67,7 @@ class Play extends Phaser.Scene{
             }),
             frameRate: 5,
             repeat: -1
-        });*/
+        });
         
 
         //place starfield + other UI elements + initiate anims
@@ -118,17 +118,17 @@ class Play extends Phaser.Scene{
         //add stars
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4,
         'star', 0, 30).setOrigin(0,0);
-        //ship01.play('pulse');
+        this.ship01.anims.play('pulse');
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2,
         'star', 0, 20).setOrigin(0,0);
-        //ship02.play("pulse");
+        this.ship02.anims.play('pulse');
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4,
         'star', 0, 10).setOrigin(0,0);
-        //ship03.play("pulse");
+        this.ship03.anims.play('pulse');
         if(game.settings.mood == 0){
             this.ship04 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*9 + borderPadding*2,
                 'star', 0, 10).setOrigin(0,0);
-                //ship04.play("pulse");
+                this.ship04.anims.play('pulse');
         };
         this.red01 = new coolStar(this, -10, borderUISize*6, 'redStar', 0, 90).setOrigin(0,0);
 

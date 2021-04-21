@@ -26,7 +26,7 @@ let keyF, keyR, keyLEFT, keyRIGHT, keyESC;
  * 5
  *     
  * 10   Display Time Remaining in Seconds
- * 10   
+ * 10       WIP - Create new UI Border Art
  * 10   Create new title screen
  * 10   Implement parallax scrolling
  * 
