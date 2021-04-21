@@ -4,6 +4,7 @@ class Menu extends Phaser.Scene{
     }
 
     preload(){
+        this.load.image('splash', './assets/title_splash.png');
         //load audio
         this.load.audio('sfx_select', './assets/atk.wav');
         this.load.audio('sfx_explosion', './assets/heal1.wav');
@@ -25,6 +26,8 @@ class Menu extends Phaser.Scene{
             fixedWidth: 0
         }
 
+        this.splash=this.add.sprite(0,0, 'splash').setOrigin(0, 0);
+        this.splash.setDepth(-1);
 
         //menu text
         this.add.text(50, 50, 'Star Catcher', menuConfig).setOrigin(0);

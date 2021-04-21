@@ -116,6 +116,8 @@ class Play extends Phaser.Scene{
         
 
         //place sky + other UI elements + initiate anims
+        this.bWindow = this.add.sprite(0,0, 'border').setOrigin(0, 0);
+            this.bWindow.setDepth(2);
         this.candle = this.add.sprite(600,420, 'candle').setOrigin(0.5, 0.5);
             this.candle.play('flicker');
             this.candle.setDepth(3);
@@ -144,9 +146,6 @@ class Play extends Phaser.Scene{
         //end zone
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width,
         borderUISize * 2, 0x11094B).setOrigin(0,0);
-        //border sprite
-        this.bWindow = this.add.sprite(0,0, 'border').setOrigin(0, 0);
-            this.bWindow.setDepth(2);
 
 
         //add rocket (player 1)
